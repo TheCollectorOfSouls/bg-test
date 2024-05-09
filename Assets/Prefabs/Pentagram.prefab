@@ -114,7 +114,6 @@ MonoBehaviour:
   soulMinXOffset: -9
   soulYOffset: 9
   centerPoint: {fileID: 4010072600080980460}
-  topPoint: {fileID: 6281487303881667996}
 --- !u!58 &1272731060400824571
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -195,8 +194,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2eb0c69206eebc74da786101f426695a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tweenSpeed: 10
-  ease: 1
+  tweenSpeed: 20
+  ease: 6
   onTargetReached:
     m_PersistentCalls:
       m_Calls: []
@@ -361,7 +360,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1813324954998425892, guid: 110b02a1af19f5a42916c16dd682855e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3632136043446741856, guid: 110b02a1af19f5a42916c16dd682855e, type: 3}
       propertyPath: m_Pivot.x
@@ -429,7 +428,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3632136043446741856, guid: 110b02a1af19f5a42916c16dd682855e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -2.67
+      value: -2.3
       objectReference: {fileID: 0}
     - target: {fileID: 3632136043446741856, guid: 110b02a1af19f5a42916c16dd682855e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

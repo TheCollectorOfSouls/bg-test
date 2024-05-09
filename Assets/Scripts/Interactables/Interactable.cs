@@ -20,8 +20,33 @@ public abstract class Interactable : MonoBehaviour
         _interactionCanvas.SetActive(false);
     }
 
-    public abstract void Interact(PlayerInteraction playerInteraction);
-    public abstract void ClosestInteractable(bool value);
+    public virtual void Interact(PlayerInteraction playerInteraction)
+    {
+        if(!_isInteractable) return;
+
+        if (!_isInteracting)
+        {
+            _isInteracting = true;
+            _playerInteraction = playerInteraction;
+            BeginInteraction();
+        }
+        else
+        {
+            EndInteraction();
+            _isInteracting = false;
+        }
+    }
+
+    public virtual void ClosestInteractable(bool value)
+    {
+        if (!_isInteractable || _isInteracting)
+        {
+            _interactionCanvas.SetActive(false);
+            return;
+        }
+
+        _interactionCanvas.SetActive(value);
+    }
     protected abstract void EndInteraction();
     protected abstract void BeginInteraction();
 }

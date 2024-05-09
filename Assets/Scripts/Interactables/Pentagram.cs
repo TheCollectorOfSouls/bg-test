@@ -38,30 +38,7 @@ public class Pentagram : Interactable
         if(_isInteracting)
             StartSoul();
     }
-
-    public override void Interact(PlayerInteraction playerInteraction)
-    {
-        if(!_isInteractable) return;
-
-        if (!_isInteracting)
-        {
-            _isInteracting = true;
-            _playerInteraction = playerInteraction;
-            BeginInteraction();
-        }
-        else
-        {
-            EndInteraction();
-            _isInteracting = false;
-        }
-    }
-
-    public override void ClosestInteractable(bool value)
-    {
-        if(!_isInteractable || _isInteracting) return;
-
-        _interactionCanvas.SetActive(value);
-    }
+    
 
     protected override void EndInteraction()
     {

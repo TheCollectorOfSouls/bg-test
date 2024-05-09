@@ -6,12 +6,16 @@ using UnityEngine.Events;
 
 public class PlayerManager : MonoBehaviour
 {
+    [SerializeField] private InventoryController inventoryController;
     private int _playerSouls = 0;
     
     public int PlayerSouls => _playerSouls;
+    public bool InVendorInteraction { get; set; } = false;
     public static PlayerManager Instance { get; private set; }
     public UnityEvent<bool> onToggleMovement;
     public UnityEvent<int> onPlayerSoulsChanged;
+    public UnityEvent<ItemSo> onGearRemoved;
+    public UnityEvent<ItemSo> onGearChanged;
 
     private void Awake()
     {
@@ -33,5 +37,27 @@ public class PlayerManager : MonoBehaviour
     public void EnableMovement(bool value)
     {
         onToggleMovement?.Invoke(value);
+    }
+
+    public void GearItemRemoved(ItemSo item)
+    {
+        onGearRemoved?.Invoke(item);
+    }
+    public void GearItemChanged(ItemSo item)
+    {
+        onGearRemoved?.Invoke(item);
+    }
+
+    public void TryBuyItem(ItemSo itemSo)
+    {
+        if (_playerSouls < itemSo.SellPrice) return;
+
+        var success = inventoryController.TryAddToInventory(itemSo);
+        if (success) RemoveSouls(itemSo.SellPrice);
+    }
+    
+    public void ToggleVendorInteraction(bool value)
+    {
+        InVendorInteraction = value;
     }
 }
