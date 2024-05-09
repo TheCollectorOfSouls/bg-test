@@ -14,6 +14,7 @@ public class PlayerInputReceiver : MonoBehaviour
     private Vector2 _inputMovementValue;
 
     public UnityEvent<Vector2> onMovementInput;
+    public UnityEvent onInteractInput;
 
     private void Awake()
     {
@@ -42,7 +43,10 @@ public class PlayerInputReceiver : MonoBehaviour
     private void RemoveListeners()
     {
         if(_movementAction != null)
+        {
             _movementAction.performed -= MoveInput;
+            _movementAction.canceled -= MoveInput;
+        }
         if(_interactAction != null)
             _interactAction.performed -= InteractInput;
     }
@@ -55,7 +59,7 @@ public class PlayerInputReceiver : MonoBehaviour
     
     private void InteractInput(InputAction.CallbackContext context)
     {
-        Debug.Log("interact");
+        onInteractInput?.Invoke();
     }
     
 }

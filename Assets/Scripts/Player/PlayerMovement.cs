@@ -6,13 +6,16 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private PlayerInputReceiver playerInputReceiver;
     [SerializeField] private float movementSpeed = 5f;
     [SerializeField] private Animator animator;
+    
 
+    private bool _canMove = true;
     private bool _isMoving;
     private Vector2 _movementDirection;
     private static readonly int Horizontal = Animator.StringToHash("Horizontal");
     private static readonly int Vertical = Animator.StringToHash("Vertical");
     private static readonly int IsMoving = Animator.StringToHash("IsMoving");
     private Rigidbody2D Rb2d => GetComponent<Rigidbody2D>();
+    private PlayerManager PlayerManager => PlayerManager.Instance; 
 
     private void Awake()
     {
@@ -21,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     
     private void FixedUpdate()
     {
+        if(!_canMove) return;
         ApplyMovement();
     }
     
@@ -29,6 +33,11 @@ public class PlayerMovement : MonoBehaviour
         if (playerInputReceiver != null)
         {
             playerInputReceiver.onMovementInput.AddListener(MoveInput);
+        }
+
+        if (PlayerManager)
+        {
+            PlayerManager.onToggleMovement.AddListener(ToggleMovement);
         }
     }
 
@@ -45,6 +54,21 @@ public class PlayerMovement : MonoBehaviour
         
         _movementDirection = value;
 
+        
+    }
+
+    private void ToggleMovement(bool value)
+    {
+        _canMove = value;
+        
+        if(!_canMove)
+            _isMoving = false;
+    }
+    
+    private void ApplyMovement()
+    {
+        Rb2d.MovePosition(Rb2d.position + _movementDirection * (movementSpeed * Time.fixedDeltaTime));
+        
         if (_movementDirection == Vector2.zero)
         {
             _isMoving = false;
@@ -64,11 +88,5 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetBool(IsMoving, _isMoving);
         }
-        
-    }
-    
-    private void ApplyMovement()
-    {
-        Rb2d.MovePosition(Rb2d.position + _movementDirection * (movementSpeed * Time.fixedDeltaTime));
     }
 }
