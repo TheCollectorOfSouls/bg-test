@@ -45,7 +45,7 @@ public class PlayerManager : MonoBehaviour
     }
     public void GearItemChanged(ItemSo item)
     {
-        onGearRemoved?.Invoke(item);
+        onGearChanged?.Invoke(item);
     }
 
     public void TryBuyItem(ItemSo itemSo)

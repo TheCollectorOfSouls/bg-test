@@ -68,16 +68,16 @@ public class InventoryController : MonoBehaviour
         if (PlayerManager.InVendorInteraction)
         {
             PlayerManager.AddSouls(itemSlot.ItemSo.SellPrice);
-            itemSlot.RemoveItem();
             PlayerManager.GearItemRemoved(itemSlot.ItemSo);
+            itemSlot.RemoveItem();
             return;
         }
 
         bool success = TryAddToInventory(itemSlot.ItemSo);
         if (success)
         {
-            itemSlot.RemoveItem();
             PlayerManager.GearItemRemoved(itemSlot.ItemSo);
+            itemSlot.RemoveItem();
         }
     }
 

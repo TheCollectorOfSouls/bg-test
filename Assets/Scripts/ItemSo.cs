@@ -15,6 +15,8 @@ public class ItemSo : ScriptableObject
 	[SerializeField] private int buyPrice = 10;
 	[SerializeField] private int sellPrice = 5;
 		
+
+	public List<Sprite> AnimationSprites => animationSprites;
 	public Sprite UIIcon => uiIcon;
 	public int BuyPrice => buyPrice;
 	public int SellPrice => sellPrice;
