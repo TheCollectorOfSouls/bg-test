@@ -7,11 +7,23 @@ using UnityEngine.Events;
 [RequireComponent(typeof(SpriteRenderer))]
 public class OutfitSprite : MonoBehaviour
 {
+
+    #region Variables
+    
     [SerializeField]private CharacterSpriteChangeDetector spriteChangeDetector;
     
     private ItemSo _itemSo;
-    private SpriteRenderer SpRenderer => GetComponent<SpriteRenderer>();
+    
+    #endregion
 
+    #region Properties
+    
+    private SpriteRenderer SpRenderer => GetComponent<SpriteRenderer>();
+    
+    #endregion
+
+    #region Methods
+    
     private void Awake()
     {
         SetListeners();
@@ -50,4 +62,6 @@ public class OutfitSprite : MonoBehaviour
         
         SpRenderer.sprite = _itemSo.AnimationSprites[frame];
     }
+    
+    #endregion
 }

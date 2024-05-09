@@ -33,6 +33,8 @@ public class PlayerInputReceiver : MonoBehaviour
     
     #endregion
 
+    #region Setup
+
     private void Awake()
     {
         Instance = this;
@@ -42,6 +44,20 @@ public class PlayerInputReceiver : MonoBehaviour
     private void OnDisable()
     {
         RemoveListeners();
+    }
+    
+    private void RemoveListeners()
+    {
+        if(_movementAction != null)
+        {
+            _movementAction.performed -= MoveInput;
+            _movementAction.canceled -= MoveInput;
+        }
+        if(_interactAction != null)
+            _interactAction.performed -= InteractInput;
+        
+        if(_inventoryAction != null)
+            _inventoryAction.performed -= InventoryInput;
     }
 
     private void SetActions()
@@ -61,20 +77,10 @@ public class PlayerInputReceiver : MonoBehaviour
         if(_inventoryAction != null)
             _inventoryAction.performed += InventoryInput;
     }
-
-    private void RemoveListeners()
-    {
-        if(_movementAction != null)
-        {
-            _movementAction.performed -= MoveInput;
-            _movementAction.canceled -= MoveInput;
-        }
-        if(_interactAction != null)
-            _interactAction.performed -= InteractInput;
-        
-        if(_inventoryAction != null)
-            _inventoryAction.performed -= InventoryInput;
-    }
+    
+    #endregion
+    
+    #region Inputs
 
     private void MoveInput(InputAction.CallbackContext context)
     {
@@ -91,5 +97,7 @@ public class PlayerInputReceiver : MonoBehaviour
     {
         onInventoryInput?.Invoke();
     }
+    
+    #endregion
     
 }

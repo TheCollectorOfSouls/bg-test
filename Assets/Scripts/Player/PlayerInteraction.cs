@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
+
+    #region Variables
+    
     [SerializeField] PlayerInputReceiver playerInputReceiver;
     [SerializeField] private Animator animator;
 
@@ -15,9 +18,17 @@ public class PlayerInteraction : MonoBehaviour
     private Interactable _closestInteractable;
     private List<Interactable> _interactableList = new List<Interactable>();
     private static readonly int IsWorshiping = Animator.StringToHash("IsWorshiping");
+    
+    #endregion
 
+    #region Properties
+    
     private PlayerManager PlayerManager => PlayerManager.Instance;
+    
+    #endregion
 
+    #region Setup
+    
     private void Awake()
     {
         SetListeners();
@@ -30,6 +41,10 @@ public class PlayerInteraction : MonoBehaviour
             playerInputReceiver.onInteractInput.AddListener(Interact);
         }
     }
+    
+    #endregion
+
+    #region Interactions
 
     private void Update()
     {
@@ -101,6 +116,10 @@ public class PlayerInteraction : MonoBehaviour
         
         _currentInteraction = null;
     }
+    
+    #endregion
+
+    #region ColliderExit
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -123,5 +142,7 @@ public class PlayerInteraction : MonoBehaviour
             _closestInteractable = null;
         }
     }
+    
+    #endregion
     
 }

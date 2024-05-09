@@ -5,12 +5,17 @@ using Random = UnityEngine.Random;
 
 public class Pentagram : Interactable
 {
+    #region Variables
+    
     [SerializeField] private Soul soul;
     [SerializeField] private float soulMaxXOffset = 9f;
     [SerializeField] private float soulMinXOffset = -9f;
     [SerializeField] private float soulYOffset = 9f;
     [SerializeField] private Transform centerPoint;
-
+    
+    #endregion
+    
+    #region Methods
 
     protected override void Awake()
     {
@@ -56,4 +61,6 @@ public class Pentagram : Interactable
         
         onBeginInteraction?.Invoke();
     }
+    
+    #endregion
 }

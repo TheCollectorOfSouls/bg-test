@@ -4,12 +4,23 @@ using UnityEngine;
 
 public class OutfitSpriteController : MonoBehaviour
 {
+
+    #region Variables
+
+    
     [SerializeField] private OutfitSprite _headOutfitSprite;
     [SerializeField] private OutfitSprite _bodyOutfitSprite;
     
+    #endregion
+
+    #region Properties
+    
     PlayerManager PlayerManager => PlayerManager.Instance;
     
-    // Start is called before the first frame update
+    #endregion
+    
+    #region Methods
+    
     void Start()
     {
         SetListeners();
@@ -46,4 +57,6 @@ public class OutfitSpriteController : MonoBehaviour
                 break;
         }
     }
+    
+    #endregion
 }

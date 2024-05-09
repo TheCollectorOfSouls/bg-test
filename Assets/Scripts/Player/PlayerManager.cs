@@ -6,17 +6,33 @@ using UnityEngine.Events;
 
 public class PlayerManager : MonoBehaviour
 {
+
+    #region Variables
+    
     [SerializeField] private InventoryController inventoryController;
     private int _playerSouls = 0;
+    
+    #endregion
+    
+    #region Properties
     
     public int PlayerSouls => _playerSouls;
     public bool InVendorInteraction { get; set; } = false;
     public static PlayerManager Instance { get; private set; }
+    
+    #endregion
+    
+    #region Events
+    
     public UnityEvent<bool> onToggleMovement;
     public UnityEvent<int> onPlayerSoulsChanged;
     public UnityEvent<ItemSo> onGearRemoved;
     public UnityEvent<ItemSo> onGearChanged;
+    
+    #endregion
 
+    #region Methods
+    
     private void Awake()
     {
         Instance = this;
@@ -60,4 +76,6 @@ public class PlayerManager : MonoBehaviour
     {
         InVendorInteraction = value;
     }
+    
+    #endregion
 }

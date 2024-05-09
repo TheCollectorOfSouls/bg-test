@@ -6,15 +6,27 @@ using UnityEngine;
 
 public class InventoryController : MonoBehaviour
 {
+    
+    #region Variables
+    
     [SerializeField] private ItemSlot headSlot;
     [SerializeField] private ItemSlot bodySlot;
     [SerializeField] private GameObject gearContainer;
     [SerializeField] private GameObject inventorySlotHolder;
     
     private List<ItemSlot> _inventorySlots = new List<ItemSlot>();
+    
+    #endregion
+
+    #region Properties
+    
     PlayerManager PlayerManager => PlayerManager.Instance;
     PlayerInputReceiver PlayerInputReceiver => PlayerInputReceiver.Instance;
     
+    #endregion
+
+
+    #region Setup
 
     private void Awake()
     {
@@ -31,17 +43,7 @@ public class InventoryController : MonoBehaviour
     {
         PlayerInputReceiver.onInventoryInput.AddListener(ToggleGearContainer);
     }
-
-    private void ToggleGearContainer()
-    {
-        if(gearContainer.activeSelf)
-            gearContainer.SetActive(false);
-        else
-        {
-            gearContainer.SetActive(true);
-        }
-    }
-
+    
     private void SetInventorySlots()
     {
         _inventorySlots = inventorySlotHolder.GetComponentsInChildren<ItemSlot>().ToList();
@@ -60,6 +62,24 @@ public class InventoryController : MonoBehaviour
             slot.SetOwner(true);
         }
     }
+    
+    #endregion
+
+    #region GearInventoryContainer
+
+    private void ToggleGearContainer()
+    {
+        if(gearContainer.activeSelf)
+            gearContainer.SetActive(false);
+        else
+        {
+            gearContainer.SetActive(true);
+        }
+    }
+    
+    #endregion
+
+    #region HandleItemSlots
 
     private void GearClicked(ItemSlot itemSlot)
     {
@@ -144,5 +164,6 @@ public class InventoryController : MonoBehaviour
         return false;
     }
     
+    #endregion
     
 }

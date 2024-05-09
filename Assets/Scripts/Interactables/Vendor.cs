@@ -4,13 +4,24 @@ using UnityEngine;
 
 public class Vendor : Interactable
 {
+
+    #region Variables
+    
     [SerializeField] List<ItemSo> items = new List<ItemSo>();
     [SerializeField] private GameObject itemGrid;
     [SerializeField] private GameObject itemsContainer;
     [SerializeField] private GameObject itemSlotPrefab;
     
-    PlayerManager PlayerManager => PlayerManager.Instance;
+    #endregion
 
+    #region Properties
+    
+    PlayerManager PlayerManager => PlayerManager.Instance;
+    
+    #endregion
+
+    #region Methods
+    
     protected override void Awake()
     {
         base.Awake();
@@ -51,4 +62,6 @@ public class Vendor : Interactable
         PlayerManager.ToggleVendorInteraction(true);
         onBeginInteraction?.Invoke();
     }
+    
+    #endregion
 }

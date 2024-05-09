@@ -6,14 +6,25 @@ using UnityEngine.Events;
 
 public abstract class Interactable : MonoBehaviour
 {
+    #region Variables
+
     [SerializeField] protected bool _isInteractable = true;
     [SerializeField] protected GameObject _interactionCanvas;
     
     protected bool _isInteracting = false;
     protected PlayerInteraction _playerInteraction;
     
+    #endregion
+    
+    #region Events
+    
     public UnityEvent onEndInteraction;
     public UnityEvent onBeginInteraction;
+    
+    #endregion
+
+    #region Methods
+    
 
     protected virtual void Awake()
     {
@@ -47,6 +58,13 @@ public abstract class Interactable : MonoBehaviour
 
         _interactionCanvas.SetActive(value);
     }
+    
+    #endregion
+    
+    #region Abstract
+    
     protected abstract void EndInteraction();
     protected abstract void BeginInteraction();
+    
+    #endregion
 }

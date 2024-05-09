@@ -6,17 +6,33 @@ using UnityEngine.UI;
 
 public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    
+    #region Variables
+    
     [SerializeField] private Image itemIconImage;
     [SerializeField] private GameObject itemPriceTooltip;
     [SerializeField] private TextMeshProUGUI itemPriceText;
     [SerializeField] private Button itemButton;
     private ItemSo _itemSo;
     private bool _playerSlot;
+    
+    #endregion
+    
+    #region Properties
+    
     public bool IsEmpty => _itemSo == null;
     public ItemSo ItemSo => _itemSo;
     PlayerManager PlayerManager => PlayerManager.Instance;
+    
+    #endregion
+
+    #region Events
 
     public UnityEvent<ItemSlot> onSlotClicked;
+    
+    #endregion
+
+    #region Methods
 
     private void Awake()
     {
@@ -58,6 +74,10 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         itemIconImage.gameObject.SetActive(false);
         itemPriceTooltip.SetActive(false);
     }
+    
+    #endregion
+
+    #region Pointer
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -72,4 +92,6 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         itemPriceTooltip.SetActive(false);
     }
+    
+    #endregion
 }

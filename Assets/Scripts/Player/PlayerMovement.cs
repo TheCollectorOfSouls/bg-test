@@ -3,10 +3,12 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
+
+    #region Variables
+    
     [SerializeField] private PlayerInputReceiver playerInputReceiver;
     [SerializeField] private float movementSpeed = 5f;
     [SerializeField] private Animator animator;
-    
 
     private bool _canMove = true;
     private bool _isMoving;
@@ -14,8 +16,17 @@ public class PlayerMovement : MonoBehaviour
     private static readonly int Horizontal = Animator.StringToHash("Horizontal");
     private static readonly int Vertical = Animator.StringToHash("Vertical");
     private static readonly int IsMoving = Animator.StringToHash("IsMoving");
+    
+    #endregion
+
+    #region Properties
+    
     private Rigidbody2D Rb2d => GetComponent<Rigidbody2D>();
     private PlayerManager PlayerManager => PlayerManager.Instance; 
+    
+    #endregion
+
+    #region Methods
 
     private void Awake()
     {
@@ -89,4 +100,6 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool(IsMoving, _isMoving);
         }
     }
+    
+    #endregion
 }

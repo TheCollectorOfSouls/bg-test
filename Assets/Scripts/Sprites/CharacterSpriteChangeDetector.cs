@@ -11,14 +11,30 @@ using Object = UnityEngine.Object;
 [RequireComponent(typeof(SpriteRenderer))]
 public class CharacterSpriteChangeDetector : MonoBehaviour
 {
+
+	#region Variables
+	
 	[SerializeField] private Texture2D characterTexture;
 	[SerializeField] private List<Sprite> sprites = new List<Sprite>();
 	private OutfitSprite _controller;
 
+	#endregion
+
+	#region Properties
+
 	private SpriteRenderer SpRenderer => GetComponent<SpriteRenderer>();
 	public int CurrentFrame { get; private set; }
 
+	#endregion
+
+
+	#region Events
+
 	public UnityEvent<int> onFrameChanged;
+	
+	#endregion
+
+	#region FrameCheck
 
 	private void Update()
 	{
@@ -36,6 +52,8 @@ public class CharacterSpriteChangeDetector : MonoBehaviour
 			onFrameChanged?.Invoke(CurrentFrame);
 		}
 	}
+	
+	#endregion
 
 #if UNITY_EDITOR
 	[ContextMenu("Load Sprites")]

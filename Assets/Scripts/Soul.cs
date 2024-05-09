@@ -6,14 +6,29 @@ using UnityEngine.Events;
 
 public class Soul : MonoBehaviour
 {
+
+    #region Variables
+    
     [SerializeField] private float tweenSpeed = 10f;
     [SerializeField] private Ease ease = Ease.Linear;
     private bool _isMoving = false;
     private Tween _tween;
     
+    #endregion
+
+    #region Properties
+    
     public bool IsMoving => _isMoving;
+    
+    #endregion
+
+    #region Events
 
     public UnityEvent onTargetReached;
+    
+    #endregion
+
+    #region Methods
     
     public void MoveToTarget(Transform target)
     {
@@ -28,4 +43,6 @@ public class Soul : MonoBehaviour
             onTargetReached?.Invoke();
         });
     }
+    
+    #endregion
 }
