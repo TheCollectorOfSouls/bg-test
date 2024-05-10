@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
 
     #region Methods
 
-    private void Awake()
+    private void Start()
     {
         SetListeners();
     }
@@ -71,9 +71,16 @@ public class PlayerMovement : MonoBehaviour
     private void ToggleMovement(bool value)
     {
         _canMove = value;
-        
-        if(!_canMove)
+
+        if (!_canMove)
+        {
             _isMoving = false;
+            if (animator)
+            {
+                animator.SetBool(IsMoving, _isMoving);
+            }
+        }
+            
     }
     
     private void ApplyMovement()

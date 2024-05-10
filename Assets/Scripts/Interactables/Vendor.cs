@@ -57,6 +57,7 @@ public class Vendor : Interactable
     protected override void BeginInteraction()
     {
         _playerInteraction.LockInteraction(this);
+        _playerInteraction.SetIdleAnimation();
         _interactionCanvas.SetActive(false);
         itemsContainer.SetActive(true);
         PlayerManager.ToggleVendorInteraction(true);

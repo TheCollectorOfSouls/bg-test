@@ -54,6 +54,7 @@ public class Pentagram : Interactable
     protected override void BeginInteraction()
     {
         _playerInteraction.LockInteraction(this);
+        _playerInteraction.SetWorshippingAnimation(true);
         _interactionCanvas.SetActive(false);
         
         if(!soul.IsMoving)

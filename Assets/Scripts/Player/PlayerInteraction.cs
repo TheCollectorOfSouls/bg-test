@@ -18,7 +18,8 @@ public class PlayerInteraction : MonoBehaviour
     private Interactable _closestInteractable;
     private List<Interactable> _interactableList = new List<Interactable>();
     private static readonly int IsWorshiping = Animator.StringToHash("IsWorshiping");
-    
+    private static readonly int SetIdle = Animator.StringToHash("SetIdle");
+
     #endregion
 
     #region Properties
@@ -95,26 +96,24 @@ public class PlayerInteraction : MonoBehaviour
         PlayerManager.EnableMovement(false);
         _isInteracting = true;
         _currentInteraction = interactable;
-
-        if (interactable.GetType() == typeof(Pentagram))
-        {
-            if(animator)
-                animator.SetBool(IsWorshiping, true);
-        }
     }
 
     public void ReleaseInteraction()
     {
         PlayerManager.EnableMovement(true);
         _isInteracting = false;
-
-        if (_currentInteraction.GetType() == typeof(Pentagram))
-        {
-            if(animator)
-                animator.SetBool(IsWorshiping, false);
-        }
-        
+        SetWorshippingAnimation(false);
         _currentInteraction = null;
+    }
+
+    public void SetWorshippingAnimation(bool value)
+    {
+        animator.SetBool(IsWorshiping, value);
+    }
+
+    public void SetIdleAnimation()
+    {
+        animator.SetTrigger(SetIdle);
     }
     
     #endregion
