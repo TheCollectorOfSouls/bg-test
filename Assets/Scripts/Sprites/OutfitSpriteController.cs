@@ -1,62 +1,67 @@
 using System.Collections;
 using System.Collections.Generic;
+using Inventory.Item;
+using Player.Managers;
 using UnityEngine;
 
-public class OutfitSpriteController : MonoBehaviour
+namespace Sprites
 {
-
-    #region Variables
-
-    
-    [SerializeField] private OutfitSprite _headOutfitSprite;
-    [SerializeField] private OutfitSprite _bodyOutfitSprite;
-    
-    #endregion
-
-    #region Properties
-    
-    PlayerManager PlayerManager => PlayerManager.Instance;
-    
-    #endregion
-    
-    #region Methods
-    
-    void Start()
+    public class OutfitSpriteController : MonoBehaviour
     {
-        SetListeners();
-    }
 
-    private void SetListeners()
-    {
-        PlayerManager.onGearRemoved.AddListener(RemoveGear);
-        PlayerManager.onGearChanged.AddListener(GearChanged);
-    }
+        #region Variables
 
-    private void GearChanged(ItemSo itemSo)
-    {
-        switch (itemSo.ItemSlot)
+
+        [SerializeField] private OutfitSprite _headOutfitSprite;
+        [SerializeField] private OutfitSprite _bodyOutfitSprite;
+
+        #endregion
+
+        #region Properties
+
+        PlayerManager PlayerManager => PlayerManager.Instance;
+
+        #endregion
+
+        #region Methods
+
+        void Start()
         {
-            case ItemSo.Slot.Head:
-                _headOutfitSprite.SetItem(itemSo);
-                break;
-            case ItemSo.Slot.Body:
-                _bodyOutfitSprite.SetItem(itemSo);
-                break;
+            SetListeners();
         }
-    }
 
-    private void RemoveGear(ItemSo itemSo)
-    {
-        switch (itemSo.ItemSlot)
+        private void SetListeners()
         {
-            case ItemSo.Slot.Head:
-                _headOutfitSprite.SetItem(null);
-                break;
-            case ItemSo.Slot.Body:
-                _bodyOutfitSprite.SetItem(null);
-                break;
+            PlayerManager.onGearRemoved.AddListener(RemoveGear);
+            PlayerManager.onGearChanged.AddListener(GearChanged);
         }
+
+        private void GearChanged(ItemSo itemSo)
+        {
+            switch (itemSo.ItemSlot)
+            {
+                case ItemSo.Slot.Head:
+                    _headOutfitSprite.SetItem(itemSo);
+                    break;
+                case ItemSo.Slot.Body:
+                    _bodyOutfitSprite.SetItem(itemSo);
+                    break;
+            }
+        }
+
+        private void RemoveGear(ItemSo itemSo)
+        {
+            switch (itemSo.ItemSlot)
+            {
+                case ItemSo.Slot.Head:
+                    _headOutfitSprite.SetItem(null);
+                    break;
+                case ItemSo.Slot.Body:
+                    _bodyOutfitSprite.SetItem(null);
+                    break;
+            }
+        }
+
+        #endregion
     }
-    
-    #endregion
 }

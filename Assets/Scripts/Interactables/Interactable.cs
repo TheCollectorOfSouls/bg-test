@@ -1,70 +1,77 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using Player.Interaction;
 using UnityEngine;
 using UnityEngine.Events;
 
-public abstract class Interactable : MonoBehaviour
+namespace Interactables
 {
-    #region Variables
-
-    [SerializeField] protected bool _isInteractable = true;
-    [SerializeField] protected GameObject _interactionCanvas;
-    
-    protected bool _isInteracting = false;
-    protected PlayerInteraction _playerInteraction;
-    
-    #endregion
-    
-    #region Events
-    
-    public UnityEvent onEndInteraction;
-    public UnityEvent onBeginInteraction;
-    
-    #endregion
-
-    #region Methods
-    
-
-    protected virtual void Awake()
+    public abstract class Interactable : MonoBehaviour
     {
-        _interactionCanvas.SetActive(false);
-    }
+        #region Variables
 
-    public virtual void Interact(PlayerInteraction playerInteraction)
-    {
-        if(!_isInteractable) return;
+        [Header("Base Interactable Settings")] [SerializeField]
+        protected bool isInteractable = true;
 
-        if (!_isInteracting)
-        {
-            _isInteracting = true;
-            _playerInteraction = playerInteraction;
-            BeginInteraction();
-        }
-        else
-        {
-            EndInteraction();
-            _isInteracting = false;
-        }
-    }
+        [SerializeField] protected GameObject interactionUiGo;
 
-    public virtual void ClosestInteractable(bool value)
-    {
-        if (!_isInteractable || _isInteracting)
+        protected bool IsInteracting = false;
+        protected PlayerInteraction PInteraction;
+
+        #endregion
+
+        #region Events
+
+        public UnityEvent onEndInteraction;
+        public UnityEvent onBeginInteraction;
+
+        #endregion
+
+        #region Base Interaction
+
+        protected virtual void Awake()
         {
-            _interactionCanvas.SetActive(false);
-            return;
+            Setup();
         }
 
-        _interactionCanvas.SetActive(value);
+        protected virtual void Setup()
+        {
+            interactionUiGo.SetActive(false);
+        }
+
+        public virtual void Interact(PlayerInteraction playerInteraction)
+        {
+            if (!isInteractable) return;
+
+            if (!IsInteracting)
+            {
+                IsInteracting = true;
+                PInteraction = playerInteraction;
+                BeginInteraction();
+            }
+            else
+            {
+                EndInteraction();
+                IsInteracting = false;
+            }
+        }
+
+        public virtual void ClosestInteractable(bool value)
+        {
+            if (!isInteractable || IsInteracting)
+            {
+                interactionUiGo.SetActive(false);
+                return;
+            }
+
+            interactionUiGo.SetActive(value);
+        }
+
+        #endregion
+
+        #region Abstract
+
+        protected abstract void EndInteraction();
+        protected abstract void BeginInteraction();
+
+        #endregion
     }
-    
-    #endregion
-    
-    #region Abstract
-    
-    protected abstract void EndInteraction();
-    protected abstract void BeginInteraction();
-    
-    #endregion
 }

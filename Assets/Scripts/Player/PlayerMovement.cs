@@ -1,3 +1,5 @@
+using Player;
+using Player.Managers;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -6,50 +8,50 @@ public class PlayerMovement : MonoBehaviour
 
     #region Variables
     
-    [SerializeField] private PlayerInputReceiver playerInputReceiver;
     [SerializeField] private float movementSpeed = 5f;
-    [SerializeField] private Animator animator;
 
+    private PlayerController _playerController;
     private bool _canMove = true;
     private bool _isMoving;
     private Vector2 _movementDirection;
-    private static readonly int Horizontal = Animator.StringToHash("Horizontal");
-    private static readonly int Vertical = Animator.StringToHash("Vertical");
-    private static readonly int IsMoving = Animator.StringToHash("IsMoving");
     
     #endregion
 
     #region Properties
     
     private Rigidbody2D Rb2d => GetComponent<Rigidbody2D>();
-    private PlayerManager PlayerManager => PlayerManager.Instance; 
+    private InputReceiverManager Input => InputReceiverManager.Instance;
     
     #endregion
 
-    #region Methods
+    #region Setup
 
     private void Start()
     {
         SetListeners();
     }
     
+    private void SetListeners()
+    {
+        if (Input != null)
+        {
+            Input.onMovementInput.AddListener(MoveInput);
+        }
+    }
+    
+    public void Initialize(PlayerController playerController)
+    {
+        _playerController = playerController;
+    }
+
+    #endregion
+    
+    #region Movement
+    
     private void FixedUpdate()
     {
         if(!_canMove) return;
         ApplyMovement();
-    }
-    
-    private void SetListeners()
-    {
-        if (playerInputReceiver != null)
-        {
-            playerInputReceiver.onMovementInput.AddListener(MoveInput);
-        }
-
-        if (PlayerManager)
-        {
-            PlayerManager.onToggleMovement.AddListener(ToggleMovement);
-        }
     }
 
     private void MoveInput(Vector2 value)
@@ -64,23 +66,17 @@ public class PlayerMovement : MonoBehaviour
         }
         
         _movementDirection = value;
-
-        
     }
 
-    private void ToggleMovement(bool value)
+    public void ToggleMovement(bool value)
     {
         _canMove = value;
 
         if (!_canMove)
         {
             _isMoving = false;
-            if (animator)
-            {
-                animator.SetBool(IsMoving, _isMoving);
-            }
+            _playerController.PlayerAnimator.ToggleMovingAnimation(_isMoving);
         }
-            
     }
     
     private void ApplyMovement()
@@ -95,16 +91,15 @@ public class PlayerMovement : MonoBehaviour
         {
             _isMoving = true;
             
-            if (animator)
+            if (_playerController)
             {
-                animator.SetFloat(Horizontal, _movementDirection.x);
-                animator.SetFloat(Vertical, _movementDirection.y);
+                _playerController.PlayerAnimator.SetMovementAnimation(_movementDirection);
             }
         }
         
-        if (animator)
+        if (_playerController)
         {
-            animator.SetBool(IsMoving, _isMoving);
+            _playerController.PlayerAnimator.ToggleMovingAnimation(_isMoving);
         }
     }
     

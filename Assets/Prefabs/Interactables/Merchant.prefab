@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2277194315783024265}
   - component: {fileID: 353903218736154650}
   - component: {fileID: 8914873179437476213}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Vendor Interaction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -82,8 +82,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8486c7da6d2557d49a5c680e3a373a90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isInteractable: 1
-  _interactionCanvas: {fileID: 4711951164002145734}
+  isInteractable: 1
+  interactionUiGo: {fileID: 2876461184797179424}
   onEndInteraction:
     m_PersistentCalls:
       m_Calls: []
@@ -95,9 +95,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4100dcdfba78e02419c459cce3f30be9, type: 2}
   - {fileID: 11400000, guid: 87502ef11c6c1fe48850515457e29127, type: 2}
   - {fileID: 11400000, guid: 44f205c4857e50648a9b30a5be32257d, type: 2}
+  interactionCanvas: {fileID: 5039078240871783939}
   itemGrid: {fileID: 5202194525034282354}
   itemsContainer: {fileID: 7314868061941779993}
   itemSlotPrefab: {fileID: 2073517751745863479, guid: 655d1edc2ebdeef468bf85827177a860, type: 3}
+  sellItemModifier: 1
+  buyItemModifier: 0.5
+  playerInteractState: 2
 --- !u!1 &1191917299704252059
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,9 +112,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1854188196078571919}
   - component: {fileID: 7017107408155206571}
-  - component: {fileID: 3391555327582692829}
-  m_Layer: 0
-  m_Name: DarkWizard
+  - component: {fileID: 2052741151822210626}
+  m_Layer: 7
+  m_Name: Merchant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -184,7 +188,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &3391555327582692829
+--- !u!61 &2052741151822210626
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -241,7 +245,7 @@ GameObject:
   - component: {fileID: 6005280077566818712}
   - component: {fileID: 5340136436110470250}
   - component: {fileID: 8472248976689847261}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ItemCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -344,7 +348,7 @@ GameObject:
   - component: {fileID: 6486815073971634275}
   - component: {fileID: 3598997614268970901}
   - component: {fileID: 6104269517316692012}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -436,7 +440,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2d2a8283297ec2145995167477834885, type: 3}
+  m_Sprite: {fileID: 727982269, guid: 2d2a8283297ec2145995167477834885, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -457,7 +461,7 @@ GameObject:
   - component: {fileID: 8381933116610128806}
   - component: {fileID: 7086395411740517953}
   - component: {fileID: 444868795866253992}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ItemBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -512,7 +516,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2d2a8283297ec2145995167477834885, type: 3}
+  m_Sprite: {fileID: 727982269, guid: 2d2a8283297ec2145995167477834885, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -530,9 +534,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2277194315783024265}
     m_Modifications:
+    - target: {fileID: 771200982127685541, guid: 110b02a1af19f5a42916c16dd682855e, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 1813324954998425892, guid: 110b02a1af19f5a42916c16dd682855e, type: 3}
       propertyPath: m_Name
       value: InteractCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 1813324954998425892, guid: 110b02a1af19f5a42916c16dd682855e, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3632136043446741856, guid: 110b02a1af19f5a42916c16dd682855e, type: 3}
       propertyPath: m_Pivot.x
@@ -626,14 +638,27 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9197812631016481474, guid: 110b02a1af19f5a42916c16dd682855e, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197812631016481474, guid: 110b02a1af19f5a42916c16dd682855e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 110b02a1af19f5a42916c16dd682855e, type: 3}
---- !u!1 &4711951164002145734 stripped
+--- !u!1 &2876461184797179424 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 1813324954998425892, guid: 110b02a1af19f5a42916c16dd682855e, type: 3}
+  m_CorrespondingSourceObject: {fileID: 9197812631016481474, guid: 110b02a1af19f5a42916c16dd682855e, type: 3}
+  m_PrefabInstance: {fileID: 6363040838605233378}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &5039078240871783939 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 2134821776026125025, guid: 110b02a1af19f5a42916c16dd682855e, type: 3}
   m_PrefabInstance: {fileID: 6363040838605233378}
   m_PrefabAsset: {fileID: 0}
 --- !u!224 &7649926448250582914 stripped

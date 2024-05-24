@@ -8,70 +8,97 @@ using UnityEditor;
 using UnityEngine.Events;
 using Object = UnityEngine.Object;
 
-[RequireComponent(typeof(SpriteRenderer))]
-public class CharacterSpriteChangeDetector : MonoBehaviour
+namespace Sprites
 {
+	[RequireComponent(typeof(SpriteRenderer))]
 
-	#region Variables
-	
-	[SerializeField] private Texture2D characterTexture;
-	[SerializeField] private List<Sprite> sprites = new List<Sprite>();
-	private OutfitSprite _controller;
-
-	#endregion
-
-	#region Properties
-
-	private SpriteRenderer SpRenderer => GetComponent<SpriteRenderer>();
-	public int CurrentFrame { get; private set; }
-
-	#endregion
-
-
-	#region Events
-
-	public UnityEvent<int> onFrameChanged;
-	
-	#endregion
-
-	#region FrameCheck
-
-	private void Update()
+	public class CharacterSpriteChangeDetector : MonoBehaviour
 	{
-		CheckFrame();
-	}
 
-	private void CheckFrame()
-	{
-		if (sprites.Count <= 0) return;
-		int frame = sprites.IndexOf(SpRenderer.sprite);
-		
-		if (CurrentFrame != frame)
+		#region Variables
+
+		[SerializeField] private Texture2D characterTexture;
+		[SerializeField] private Sprite[] sprites;
+
+		private Dictionary<Sprite, int> _spriteToFrame = new Dictionary<Sprite, int>();
+
+		#endregion
+
+		#region Properties
+
+		private SpriteRenderer SpRenderer => GetComponent<SpriteRenderer>();
+		public int CurrentFrame { get; private set; }
+
+		#endregion
+
+
+		#region Events
+
+		public UnityEvent<int> onFrameChanged;
+
+		#endregion
+
+		#region FrameCheck
+
+		private void Awake()
 		{
-			CurrentFrame = frame;
-			onFrameChanged?.Invoke(CurrentFrame);
+			Setup();
 		}
-	}
-	
-	#endregion
 
-#if UNITY_EDITOR
-	[ContextMenu("Load Sprites")]
-	public void SetSpritesFromTexture()
-	{
-		if (characterTexture == null) return;
-		sprites = new List<Sprite>();
-		Object[] data = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(characterTexture));
-		if (data == null) return;
-		for (int i = 0; i < data.Length; i++)
+		private void Update()
 		{
-			Object obj = data[i];
-				
-			if (obj is Sprite sprite)
+			CheckFrame();
+		}
+
+		private void Setup()
+		{
+			_spriteToFrame.Clear();
+			for (int i = 0; i < sprites.Length; i++)
 			{
-				sprites.Add(sprite);
+				_spriteToFrame.Add(sprites[i], i);
 			}
 		}
-	}
+
+		private void CheckFrame()
+		{
+			if (_spriteToFrame.Count <= 0) return;
+
+			bool success = _spriteToFrame.TryGetValue(SpRenderer.sprite, out var frame);
+
+			if (!success) return;
+
+			if (CurrentFrame != frame)
+			{
+				CurrentFrame = frame;
+				onFrameChanged?.Invoke(CurrentFrame);
+			}
+		}
+
+		#endregion
+
+#if UNITY_EDITOR
+		[ContextMenu("Load Sprites")]
+		public void SetSpritesFromTexture()
+		{
+			if (characterTexture == null) return;
+			string textureName = characterTexture.name;
+			Object[] data = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(characterTexture));
+			if (data == null) return;
+			sprites = new Sprite[data.Length - 1];
+
+			for (int i = 0; i < data.Length; i++)
+			{
+				Object obj = data[i];
+
+				if (obj is Sprite sprite)
+				{
+					var positionString = sprite.name.Replace($"{textureName}_", "");
+					bool success = int.TryParse(positionString, out int position);
+					if (success)
+						sprites[position] = sprite;
+				}
+			}
+		}
 #endif
+	}
 }

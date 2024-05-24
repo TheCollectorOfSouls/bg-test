@@ -1,27 +1,43 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using Player.Managers;
 using TMPro;
 using UnityEngine;
 
-public class SoulsCounter : MonoBehaviour
+namespace UIStatus
 {
-    [SerializeField] private TextMeshProUGUI soulsText;
-    PlayerManager PlayerManager => PlayerManager.Instance;
+    public class SoulsCounter : MonoBehaviour
+    {
+        #region Variables / Properties
 
-    private void Start()
-    {
-        SetListeners();
-        UpdateSoulsText(PlayerManager.PlayerSouls);
-    }
+        [SerializeField] private TextMeshProUGUI soulsText;
+        PlayerManager PManager => PlayerManager.Instance;
 
-    private void SetListeners()
-    {
-        PlayerManager.onPlayerSoulsChanged.AddListener(UpdateSoulsText);
-    }
-    
-    private void UpdateSoulsText(int souls)
-    {
-        soulsText.text = $"Souls: {souls}";
+        #endregion
+
+        #region Setup
+
+        private void Start()
+        {
+            Setup();
+        }
+
+        private void Setup()
+        {
+            if (PManager)
+            {
+                PManager.onPlayerSoulsChanged.AddListener(UpdateSoulsText);
+                UpdateSoulsText(PManager.PlayerSouls);
+            }
+        }
+
+        #endregion
+
+        #region UI
+
+        private void UpdateSoulsText(int souls)
+        {
+            soulsText.text = $"Souls: {souls}";
+        }
+
+        #endregion
     }
 }
